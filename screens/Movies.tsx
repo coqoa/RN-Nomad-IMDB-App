@@ -26,6 +26,29 @@ const BgImg = styled.Image`
 const Poster = styled.Image`
   width: 100px;
   height: 150px;
+  border-radius: 5px;
+`
+const Wrapper = styled.View`
+  flex-direction: row;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+`
+const Title = styled.Text`
+  font-size: 16px;
+  font-weight: 400;
+  color: white;
+`
+const Column = styled.View`
+  width: 40%;
+  margin-left: 15px;
+`
+const Overview = styled.Text`
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 10px;
+`
+const Votes = styled(Overview)`
+  // +추가하고싶은 스타일 추가가능
 `
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -67,8 +90,15 @@ const Movies:React.FC<NativeStackScreenProps<any,"Movies">> = () => {
         <Views key={movie.id}>
           <BgImg style={StyleSheet.absoluteFill} source={{ uri: makeImgPath(movie.backdrop_path) }}/>
           <BlurView intensity={20} style={StyleSheet.absoluteFill}>
-            <Poster source={{uri: makeImgPath(movie.poster_path)}}></Poster>
-            <Text>{movie.original_title}</Text>
+            <Wrapper>
+              <Poster source={{uri: makeImgPath(movie.poster_path)}}></Poster>
+              <Column>
+                <Title>{movie.original_title}</Title>
+                <Overview>{movie.overview.slice(0, 78)}...</Overview>
+                {movie.vote_average ? (<Votes>🌟 {movie.vote_average} / 10</Votes>) 
+                : null}
+              </Column>
+            </Wrapper>
           </BlurView>
         </Views>)}
       </Swiper>
